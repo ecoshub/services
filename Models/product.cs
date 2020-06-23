@@ -22,4 +22,19 @@ namespace ProductService.Models {
         [Required]
         public DateTime productRegisterDate { get; set; }
     }
+
+    public product () { }
+
+    public product (
+        string product_name,
+        uint product_stock,
+        double product_price,
+        string product_description) {
+        productId = Guid.NewGuid ();
+        productName = product_name;
+        productStock = product_stock;
+        productPrice = product_price;
+        productDesciption = product_description;
+        productRegisterDate = DateTime.Now;
+    }
 }

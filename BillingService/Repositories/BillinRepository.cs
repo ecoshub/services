@@ -22,5 +22,11 @@ namespace BillingService.Repositories {
         public void invoice (List<Guid> product_ids) {
             throw new NotImplementedException ();
         }
+
+        public void addInvoice (sale _sale) {
+            _context.Add (_sale);
+            _context.SaveChanges ();
+            _context.Entry (_sale).State = EntityState.Detached;
+        }
     }
 }

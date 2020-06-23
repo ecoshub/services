@@ -25,9 +25,12 @@ namespace BillingService.Models {
         [Required]
         public double saleTotalPrice { get; set; }
 
+        [Required]
+        public uint stockLeft { get; set; }
+
         public sale () { }
 
-        public sale (Guid _billId, Guid _productRefId, DateTime _saleDate, uint _saleAmount, double _saleUnitPrice, double _saleTotalPrice) {
+        public sale (Guid _billId, Guid _productRefId, DateTime _saleDate, uint _saleAmount, double _saleUnitPrice, uint stockLeft) {
             billId = _billId;
             saleId = Guid.NewGuid ();
             productRefId = _productRefId;

@@ -1847,7 +1847,7 @@
       "Microsoft.EntityFrameworkCore >= 3.1.5",
       "Microsoft.EntityFrameworkCore.Design >= 3.1.5",
       "NETStandard.Library >= 2.0.3",
-      "Newtonsoft.Json",
+      "Newtonsoft.Json >= 12.0.3",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 3.1.4",
       "Npgsql.EntityFrameworkCore.PostgreSQL.Design >= 1.1.1"
     ]
@@ -1911,7 +1911,7 @@
           },
           "Newtonsoft.Json": {
             "target": "Package",
-            "version": "(, )"
+            "version": "[12.0.3, )"
           },
           "Npgsql.EntityFrameworkCore.PostgreSQL": {
             "target": "Package",

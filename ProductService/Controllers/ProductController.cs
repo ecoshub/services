@@ -82,5 +82,53 @@ namespace ProductService.Controllers {
             _repo.addProduct (newProd);
             return Ok (_mapper.Map<OutProductObject> (newProd));
         }
+
+        // * update product endpoint
+        // * "/api/products"
+        [HttpPut]
+        [ProducesResponseType (typeof (OutProductObject), (int) HttpStatusCode.OK)]
+        [ProducesResponseType (400)]
+        [ProducesResponseType (200)]
+        public ActionResult<OutProductObject> updateProduct (UpdateProductObject newProduct) {
+            if (newProduct == null) {
+                return BadRequest (ModelState);
+            }
+            product selected = _repo.getProduct (newProduct.productId);
+            if (selected == null) {
+                return NotFound ();
+            }
+            product newProd = _mapper.Map<product> (newProduct);
+            if (selected.productName != newProd.productName) {
+                if (_repo.productExistsByName (newProd.productName)) {
+                    CustomError productAlreadyExists = new CustomError (
+                        alreadyExistsHeader,
+                        alreadyExistsBody,
+                        alreadyExistsCode);
+                    return NotFound (productAlreadyExists);
+                }
+            }
+            if (!ModelState.IsValid) {
+                return BadRequest (ModelState);
+            }
+            newProd.productRegisterDate = DateTime.Now;
+            _repo.updateProduct (newProd);
+            OutProductObject outProduct = _mapper.Map<OutProductObject> (newProd);
+            return Ok (outProduct);
+        }
+
+        // * delete product endpoint
+        // * "/api/products/{product_id}"
+        [HttpDelete ("{product_id}")]
+        [ProducesResponseType (400)]
+        [ProducesResponseType (200)]
+        public ActionResult<OutProductObject> deleteProduct (Guid product_id) {
+            product selected = _repo.getProduct (product_id);
+            if (selected == null) {
+                return NotFound ();
+            }
+            _repo.deleteProduct (product_id);
+            OutProductObject outProduct = _mapper.Map<OutProductObject> (selected);
+            return Ok (outProduct);
+        }
     }
 }

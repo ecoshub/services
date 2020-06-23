@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -130,5 +131,33 @@ namespace ProductService.Controllers {
             OutProductObject outProduct = _mapper.Map<OutProductObject> (selected);
             return Ok (outProduct);
         }
+
+        // * delete product endpoint
+        // * "/api/products/reset
+        [HttpPost ("reset")]
+        [ProducesResponseType (400)]
+        [ProducesResponseType (200)]
+        public ActionResult resetSeed () {
+            // clear products
+            _context.product.RemoveRange (_context.product.OrderBy (c => c.productName).ToList ());
+            // add again
+            product temp = new product ("Asus N550JK", 20, 7799.90, "Asus N550JK laptop");
+            _context.product.Add (temp);
+            _context.SaveChanges ();
+            temp = new product ("IPhone S12", 56, 10999.90, "IPhone S12 Smartphone");
+            _context.product.Add (temp);
+            _context.SaveChanges ();
+            temp = new product ("Logitech K360", 48, 299.90, "Logitech wireless keyboard");
+            _context.product.Add (temp);
+            _context.SaveChanges ();
+            temp = new product ("Logitech A67", 20, 7799.90, "Logitech 3+1 Sound System");
+            _context.product.Add (temp);
+            _context.SaveChanges ();
+            temp = new product ("Samsung A50", 85, 7799.90, "Samsung A50 Smartphone");
+            _context.product.Add (temp);
+            _context.SaveChanges ();
+            return Ok ();
+        }
+
     }
 }

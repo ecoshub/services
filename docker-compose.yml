@@ -1,0 +1,34 @@
+version: '3'
+
+networks:
+    inner_bridge:
+        driver: bridge
+
+services: 
+    prodcut_service:
+        image: new_product_service
+        depends_on: 
+            - "postgres_image_product"
+        build:
+            context: ./ProductService
+            dockerfile: Dockerfile
+        ports: 
+            - "8080:80"
+        networks:
+            - inner_bridge
+
+    postgres_image_product:
+        image: postgres:latest
+        ports: 
+            - "5432"
+        volumes:
+            - "db_volume:/var/lib/postgresql/data"
+        environment: 
+            POSTGRES_USER: "postgres"
+            POSTGRES_PASSWORD: "postgres"
+            POSTGRES_DB: "product_db"
+        networks: 
+            - inner_bridge
+
+volumes: 
+    db_volume:

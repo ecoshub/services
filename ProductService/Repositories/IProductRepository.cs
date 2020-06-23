@@ -5,15 +5,15 @@ using ProductService.Models;
 
 namespace ProductService.Repositories {
     public interface IProductRepository {
-        void addProduct (product newProduct);
-        product getProduct ();
-        product updateProduct (product newProduct);
-        product deleteProduct ();
+        void addProduct (AddProductObject newProduct);
+        OutProductObject getProduct ();
+        OutProductObject updateProduct (UpdateProductObject newProduct);
+        OutProductObject deleteProduct ();
         GetBillObject buyProduct (IEnumerable<Guid> productIds);
         // ? control functions
         bool productExistsById (Guid productId);
         bool productExistsByName (string productName);
         // ? for testing/debuging
-        IEnumerable<product> getAllProducts ();
+        IEnumerable<OutProductObject> getAllProducts ();
     }
 }

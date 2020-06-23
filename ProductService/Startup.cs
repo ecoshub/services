@@ -39,15 +39,6 @@ namespace ProductService {
             });
 
             context.Database.Migrate ();
-
-            // Database seeding code block.
-            // try {
-            //     DatabaseSeed.Seeding.Seed (context);
-            // } catch (DbUpdateException) {
-            //     Console.WriteLine ("Dataseed already exists.");
-            // } catch (Exception) {
-            //     Console.WriteLine ("Dataseeding problem!");
-            // }
         }
     }
 }

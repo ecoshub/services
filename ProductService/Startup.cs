@@ -11,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ProductService.Contexts;
+using ProductService.DatabaseSeed;
+using ProductService.Models;
+using ProductService.Repositories;
 
 namespace ProductService {
     public class Startup {
@@ -24,10 +27,11 @@ namespace ProductService {
         public void ConfigureServices (IServiceCollection services) {
             services.AddDbContext<ProductDatabaseContext> ();
             services.AddControllers ();
+            services.AddScoped<IProductRepository, ProductRepository> ();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure (IApplicationBuilder app, IWebHostEnvironment env) {
+        public void Configure (IApplicationBuilder app, IWebHostEnvironment env, ProductDatabaseContext context) {
             if (env.IsDevelopment ()) {
                 app.UseDeveloperExceptionPage ();
             }
@@ -39,6 +43,8 @@ namespace ProductService {
             app.UseEndpoints (endpoints => {
                 endpoints.MapControllers ();
             });
+            // context.product.Add (new product ("test_name", 10, 50.99, "test_desc"));
+            // DatabaseSeed.Seeding.Seed (context);
         }
     }
 }

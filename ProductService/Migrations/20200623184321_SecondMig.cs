@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProductService.Migrations
 {
-    public partial class InitMig : Migration
+    public partial class SecondMig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -22,6 +22,12 @@ namespace ProductService.Migrations
                 {
                     table.PrimaryKey("PK_product", x => x.productId);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_product_productName",
+                table: "product",
+                column: "productName",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

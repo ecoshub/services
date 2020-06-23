@@ -43,6 +43,9 @@ namespace ProductService.Migrations
 
                     b.HasKey("productId");
 
+                    b.HasIndex("productName")
+                        .IsUnique();
+
                     b.ToTable("product");
                 });
 #pragma warning restore 612, 618

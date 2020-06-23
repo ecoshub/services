@@ -10,8 +10,8 @@ using ProductService.Contexts;
 namespace ProductService.Migrations
 {
     [DbContext(typeof(ProductDatabaseContext))]
-    [Migration("20200623154209_InitMig")]
-    partial class InitMig
+    [Migration("20200623184321_SecondMig")]
+    partial class SecondMig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,6 +44,9 @@ namespace ProductService.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("productId");
+
+                    b.HasIndex("productName")
+                        .IsUnique();
 
                     b.ToTable("product");
                 });

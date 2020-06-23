@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,6 +28,7 @@ namespace ProductService {
         public void ConfigureServices (IServiceCollection services) {
             services.AddDbContext<ProductDatabaseContext> ();
             services.AddControllers ();
+            services.AddAutoMapper (AppDomain.CurrentDomain.GetAssemblies ());
             services.AddScoped<IProductRepository, ProductRepository> ();
         }
 
@@ -43,8 +45,8 @@ namespace ProductService {
             app.UseEndpoints (endpoints => {
                 endpoints.MapControllers ();
             });
-            // context.product.Add (new product ("test_name", 10, 50.99, "test_desc"));
-            // DatabaseSeed.Seeding.Seed (context);
+
+            DatabaseSeed.Seeding.Seed (context);
         }
     }
 }

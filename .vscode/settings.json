@@ -1,3 +1,27 @@
 {
-    "cSpell.enabled": true
+    "cSpell.enabled": true,
+    "sqltools.connections": [
+        {
+            "askForPassword": false,
+            "database": "postgres",
+            "driver": "PostgreSQL",
+            "name": "postgres",
+            "password": "postgres",
+            "port": 5432,
+            "previewLimit": 50,
+            "server": "localhost",
+            "username": "postgres"
+        },
+        {
+            "askForPassword": false,
+            "database": "product_db",
+            "driver": "PostgreSQL",
+            "name": "post_product",
+            "password": "postgres",
+            "port": 5432,
+            "previewLimit": 50,
+            "server": "localhost",
+            "username": "postgres"
+        }
+    ]
 }

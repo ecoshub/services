@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "/home/eco/.dotnet/store/|arch|/|tfm|",
+      "/home/eco/.nuget/packages"
+    ]
+  }
+}

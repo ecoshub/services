@@ -1,2 +1,2 @@
 # services
-dotnet core service worr with docker
+dotnet core service with docker

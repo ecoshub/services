@@ -1,2 +1,2 @@
 # services
-dotnet dore services try
+dotnet core service worr with docker

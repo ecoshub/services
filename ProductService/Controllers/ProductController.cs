@@ -159,5 +159,46 @@ namespace ProductService.Controllers {
             return Ok ();
         }
 
+        // * update product stock endpoint
+        // * "/api/products/{product_id}/stock/{new_stock}  
+        [HttpPut ("{product_id}/stock/{new_stock}")]
+        [ProducesResponseType (400)]
+        [ProducesResponseType (200)]
+        public ActionResult<product> updateProductStock (Guid product_id, uint new_stock) {
+            product selected = _repo.getProduct (product_id);
+            if (selected == null) {
+                return NotFound ();
+            }
+            selected.productStock = new_stock;
+            _repo.updateProduct (selected);
+            return Ok (selected);
+        }
+        // * buy product(s) endpoint
+        // * "/api/products/buy
+        [HttpPost ("buy")]
+        [ProducesResponseType (400)]
+        [ProducesResponseType (200)]
+        public ActionResult<List<sale>> buyProduct (List<Guid> product_ids) {
+            List<sale> sales;
+            CustomError err;
+            (sales, err) = _repo.buyProduct (product_ids);
+            if (err != null) {
+                return BadRequest (err);
+            }
+            return Ok (sales);
+        }
+
+        // * buy product(s) endpoint
+        // * "/api/products/bill
+        [HttpGet ("bill/{bill_id}")]
+        [ProducesResponseType (400)]
+        [ProducesResponseType (200)]
+        public ActionResult<List<sale>> getBill (Guid bill_id) {
+            List<sale> sales = _repo.getBill (bill_id);
+            if (sales == null) {
+                return NotFound ();
+            }
+            return Ok (sales);
+        }
     }
 }

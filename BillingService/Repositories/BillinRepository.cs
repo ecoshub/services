@@ -16,7 +16,7 @@ namespace BillingService.Repositories {
         }
 
         public List<sale> getBill (Guid billId) {
-            throw new NotImplementedException ();
+            return _context.sale.AsNoTracking ().Where (b => b.billId == billId).ToList ();
         }
 
         public void invoice (List<Guid> product_ids) {

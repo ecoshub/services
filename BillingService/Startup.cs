@@ -46,7 +46,7 @@ namespace BillingService {
                 endpoints.MapControllers ();
             });
 
-            // context.Database.Migrate ();
+            context.Database.Migrate ();
         }
     }
 }

@@ -1,34 +1,69 @@
 version: '3'
 
 networks:
-    inner_bridge:
+    product_postgres:
+        driver: bridge
+    billing_postgres:
+        driver: bridge
+    master_bridge:
         driver: bridge
 
 services: 
     prodcut_service:
         image: new_product_service
         depends_on: 
-            - "postgres_image_product"
+            - "postgres_product_image"
         build:
             context: ./ProductService
             dockerfile: Dockerfile
         ports: 
-            - "8080:80"
+            - "8080:5000"
         networks:
-            - inner_bridge
+            - product_postgres
+            - master_bridge
+        restart: always
 
-    postgres_image_product:
+    postgres_product_image:
         image: postgres:latest
         ports: 
             - "5432"
         volumes:
-            - "db_volume:/var/lib/postgresql/data"
+            - "db_volume_product:/var/lib/postgresql/data"
         environment: 
             POSTGRES_USER: "postgres"
             POSTGRES_PASSWORD: "postgres"
-            POSTGRES_DB: "product_db"
         networks: 
-            - inner_bridge
+            - product_postgres
+        restart: always
+
+    billing_service:
+        image: new_billing_service
+        depends_on: 
+            - "postgres_billing_image"
+        build:
+            context: ./BillingService
+            dockerfile: Dockerfile
+        ports: 
+            - "5002"
+        networks:
+            - billing_postgres
+            - master_bridge
+        restart: always
+
+    postgres_billing_image:
+        image: postgres:latest
+        ports: 
+            - "5432"
+        volumes:
+            - "db_volume_billing:/var/lib/postgresql/data"
+        environment: 
+            POSTGRES_USER: "postgres"
+            POSTGRES_PASSWORD: "postgres"
+        networks: 
+            - billing_postgres
+        restart: always
 
 volumes: 
-    db_volume:
+    db_volume_product:
+    db_volume_billing:
+    

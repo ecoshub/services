@@ -30,7 +30,7 @@ namespace BillingService.Models {
 
         public sale () { }
 
-        public sale (Guid _billId, Guid _productRefId, DateTime _saleDate, uint _saleAmount, double _saleUnitPrice, uint stockLeft) {
+        public sale (Guid _billId, Guid _productRefId, DateTime _saleDate, uint _saleAmount, double _saleUnitPrice, uint _stockLeft) {
             billId = _billId;
             saleId = Guid.NewGuid ();
             productRefId = _productRefId;
@@ -38,6 +38,7 @@ namespace BillingService.Models {
             saleAmount = _saleAmount;
             saleUnitPrice = _saleUnitPrice;
             saleTotalPrice = _saleAmount * _saleUnitPrice;
+            stockLeft = _stockLeft;
         }
     }
 }

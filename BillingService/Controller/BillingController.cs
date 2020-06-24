@@ -22,6 +22,7 @@ namespace BillingService.Controller {
         // * "/api/billing
         [HttpPost]
         [ProducesResponseType (400)]
+        [ProducesResponseType (500)]
         [ProducesResponseType (200)]
         public ActionResult<List<sale>> invoice (List<Guid> product_ids) {
             List<Stock> stocks = Misc.getStocks (product_ids);
@@ -38,9 +39,25 @@ namespace BillingService.Controller {
                 sale _sale = new sale (billId, st.prod.productId, DateTime.Now, st.count, st.prod.productPrice, stockLeft);
                 sales.Add (_sale);
                 _repo.addInvoice (_sale);
-                Comm.updateStockAmount (st.prod.productId, stockLeft);
+                product prod = Comm.updateStockAmount (st.prod.productId, stockLeft);
+                if (prod == null) {
+                    return Problem ("Fatal Error", "Product service down", 500, "Service Error", "Fatal");
+                }
             }
             return Ok (sales);
         }
+        // * get bill endpoint
+        // * "/api/billing
+        [HttpGet ("{bill_id}")]
+        [ProducesResponseType (400)]
+        [ProducesResponseType (200)]
+        public ActionResult<List<sale>> getBill (Guid bill_id) {
+            List<sale> sales = _repo.getBill (bill_id);
+            if (sales == null) {
+                return NotFound ();
+            }
+            return sales;
+        }
+
     }
 }

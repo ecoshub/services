@@ -1,2 +1,52 @@
 # services
-dotnet core service with docker
+## Dotnet product and billing service.
+
+Live Demo in: http://146.148.102.96:80/api/products
+
+```
+add new produt(POST)  /api/products
+update produt(PUT)    /api/products
+get all products(GET) /api/products/{product_id}
+get prodcut(GET)      /api/products/{product_id}
+update stock(PUT)     /api/products/{product_id}/stock/{new_stock}
+delete product(DELTE) /api/products/{product_id}
+buy items(POST)       /api/products/buy
+get bill(GET)         /api/products/bill/{bill_id}
+reset db(POST)        /api/products/reset
+```
+
+## Architecture
+<p align="center">
+  <img src="diagram.png">
+</p>
+***Live demo port is maped to 80  not 8080
+
+#### Product Model
+```C#
+    Guid productId
+    string productName
+    uint productStock
+    double productPrice
+    string productDescription
+    DateTime productRegisterDate
+```
+
+#### Add Product Model
+```C#
+    string productName
+    uint productStock
+    double productPrice
+    string productDescription
+```
+
+#### Sale Model
+```C#
+        Guid billId
+        Guid saleId
+        Guid productRefId
+        DateTime saleDate
+        uint saleAmount
+        double saleUnitPrice
+        double saleTotalPrice
+        uint stockLeft
+```

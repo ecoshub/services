@@ -18,28 +18,46 @@ namespace BillingService.Controller {
             _repo = repo;
             _context = context;
         }
-        // * invoicing endpoint
-        // * "/api/billing
+
         [HttpPost]
         [ProducesResponseType (400)]
         [ProducesResponseType (500)]
         [ProducesResponseType (200)]
-        public ActionResult<List<sale>> invoice (List<Guid> product_ids) {
-            List<Stock> stocks = Misc.getStocks (product_ids);
-            CustomError err = Misc.stockCheck (stocks);
-            if (err != null) {
-                return Ok (err);
+        public ActionResult<List<sale>> newInvoice (List<Guid> product_ids) {
+            // * get products in.
+            List<product> products = new List<product> ();
+            IDictionary<Guid, uint> stocks = new Dictionary<Guid, uint> ();
+            foreach (Guid id in product_ids) {
+                if (stocks.ContainsKey (id)) {
+                    stocks[id]++;
+                } else {
+                    // * avoide multiple count.
+                    stocks.Add (id, 1);
+                    products.Add (Comm.getProduct (id));
+                }
             }
-
+            // * stock check.
+            string errorString = "";
+            foreach (product prod in products) {
+                uint saleAmount = stocks[prod.productId];
+                uint stockAmount = prod.productStock;
+                if (saleAmount > stockAmount) {
+                    errorString += $"Stock for {prod.productName} is not enough. Requested {saleAmount}, have {stockAmount}. ";
+                }
+            }
+            if (errorString != "") {
+                return Ok (new CustomError ("Not enough stock", errorString, "NS00"));
+            }
+            // * update new stocks.
             List<sale> sales = new List<sale> ();
             Guid billId = Guid.NewGuid ();
-            // stock update for each sale.
-            foreach (Stock st in stocks) {
-                uint stockLeft = st.prod.productStock - st.count;
-                sale _sale = new sale (billId, st.prod.productId, DateTime.Now, st.count, st.prod.productPrice, stockLeft);
+            foreach (product prod in products) {
+                uint saleAmount = stocks[prod.productId];
+                uint stockAmount = prod.productStock;
+                uint stockLeft = stockAmount - saleAmount;
+                sale _sale = new sale (billId, prod.productId, DateTime.Now, saleAmount, prod.productPrice, stockLeft);
                 sales.Add (_sale);
-                _repo.addInvoice (_sale);
-                product prod = Comm.updateStockAmount (st.prod.productId, stockLeft);
+                product newProduct = Comm.updateStockAmount (prod.productId, stockLeft);
                 if (prod == null) {
                     return Problem ("Fatal Error", "Product service down", 500, "Service Error", "Fatal");
                 }

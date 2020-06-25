@@ -5,14 +5,18 @@ Live Demo in: http://146.148.102.96:80/api/products
 
 ```
 add new produt(POST)  /api/products
+body: add product model(below)
 update produt(PUT)    /api/products
+body: add product model(below)
 get all products(GET) /api/products/{product_id}
 get prodcut(GET)      /api/products/{product_id}
 update stock(PUT)     /api/products/{product_id}/stock/{new_stock}
 delete product(DELTE) /api/products/{product_id}
 buy items(POST)       /api/products/buy
+body: product_id array as string
 get bill(GET)         /api/products/bill/{bill_id}
 reset db(POST)        /api/products/reset
+body: empty body
 ```
 
 ## Architecture

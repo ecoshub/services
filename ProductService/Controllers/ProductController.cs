@@ -132,7 +132,7 @@ namespace ProductService.Controllers {
             return Ok (outProduct);
         }
 
-        // * delete product endpoint
+        // * reset database endpoint
         // * "/api/products/reset
         [HttpPost ("reset")]
         [ProducesResponseType (400)]

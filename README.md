@@ -1,7 +1,14 @@
 # services
-## Dotnet product and billing service.
+## .Net Core Product and Billing service.
 
-Live Demo in: http://146.148.102.96:80/api/products
+Live Demo at: http://146.148.102.96:80/api/products
+
+## How to run?
+
+```
+$ docker-compose build
+$ docker-compose up
+```
 
 ```
 add new produt(POST)  /api/products

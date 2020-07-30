@@ -28,5 +28,10 @@ namespace BillingService.Repositories {
             _context.SaveChanges ();
             _context.Entry (_sale).State = EntityState.Detached;
         }
+
+        public List<Guid> getBills () {
+            List<Guid> bills = _context.sale.Select (b => b.billId).ToList ();
+            return bills;
+        }
     }
 }

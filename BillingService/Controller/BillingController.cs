@@ -77,5 +77,12 @@ namespace BillingService.Controller {
             return sales;
         }
 
+        [HttpGet]
+        [ProducesResponseType (400)]
+        [ProducesResponseType (200)]
+        public ActionResult<List<Guid>> getBills () {
+            return _repo.getBills ();
+        }
+
     }
 }

@@ -6,6 +6,7 @@ namespace BillingService.Repositories {
     public interface IBillingRepository {
         void invoice (List<Guid> product_ids);
         List<sale> getBill (Guid billId);
+        List<Guid> getBills ();
         void addInvoice (sale _sale);
     }
 }
